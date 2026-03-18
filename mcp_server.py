@@ -37,7 +37,7 @@ def get_doc(doc_id: str) -> str:
     """Return the contents of a specific document."""
     return docs.get(doc_id, "Document not found.")
 
-@mcp.prompt("rewrite_doc")
+@mcp.prompt("format")
 def rewrite_doc(doc_id: str) -> list[base.Message]:
     prompt = f"""
     Rewrite the following document in markdown format:
@@ -51,6 +51,14 @@ def rewrite_doc(doc_id: str) -> list[base.Message]:
 
 
 # TODO: Write a prompt to summarize a doc
+@mcp.prompt("summarize_doc")
+def summarize_doc(doc_id: str) -> list[base.Message]:
+    prompt = f"""
+    Summarize the following document in 2-3 sentences:
+
+    Document ID: {doc_id}
+    """
+    return [base.UserMessage(content=prompt)]
 
 
 if __name__ == "__main__":
