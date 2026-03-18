@@ -1,4 +1,5 @@
 from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp.prompts import base
 
 mcp = FastMCP("DocumentMCP", log_level="ERROR")
 
@@ -35,7 +36,20 @@ def list_docs() -> list[str]:
 def get_doc(doc_id: str) -> str:
     """Return the contents of a specific document."""
     return docs.get(doc_id, "Document not found.")
-# TODO: Write a prompt to rewrite a doc in markdown format
+
+@mcp.prompt("rewrite_doc")
+def rewrite_doc(doc_id: str) -> list[base.Message]:
+    prompt = f"""
+    Rewrite the following document in markdown format:
+
+    Document ID: {doc_id}
+    Content: {docs.get(doc_id, "Document not found.")}
+
+    As markdown, you can use headings, bullet points, and other formatting to make the document easier to read.
+    """
+    return [base.UserMessage(content=prompt)]
+
+
 # TODO: Write a prompt to summarize a doc
 
 
